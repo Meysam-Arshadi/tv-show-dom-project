@@ -12,15 +12,19 @@ function makePageForEpisodes(episodeList) {
     let episodeCard = document.createElement("div");
     episodeCard.setAttribute("id", "episode-card");
 
-    let episodeNumber = document.createElement("p3");
+    let episodeNumber = document.createElement("p");
     episodeNumber.innerHTML = `S0${episode.season}E0${episode.number}`;
     episodeNumber.setAttribute("id", "episode-number");
-    episodeCard.appendChild(episodeNumber);
 
     let episodeTitle = document.createElement("h3");
     episodeTitle.innerHTML = `${episode.name}`;
     episodeTitle.setAttribute("id", "episode-title");
-    episodeCard.appendChild(episodeTitle);
+
+    let titleContainer = document.createElement("div");
+    titleContainer.setAttribute("id", "title-container");
+    titleContainer.appendChild(episodeNumber);
+    titleContainer.appendChild(episodeTitle);
+    episodeCard.appendChild(titleContainer);
 
     let episodeImage = document.createElement("img");
     episodeImage.src = episode.image.medium;

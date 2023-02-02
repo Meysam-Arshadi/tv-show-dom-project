@@ -1,7 +1,7 @@
-.body {
-  font-family: Tahoma, sans-serif;
+body {
   display: flex;
   flex-direction: row;
+  font-family: "Poppins";
 }
 #root {
   display: flex;
@@ -11,7 +11,6 @@
 }
 
 #episode-card {
-  display: inline-table;
   padding: 10px;
   width: 20%;
   border-style: solid;
@@ -21,29 +20,26 @@
 }
 
 #episode-img {
-  width: auto;
+  display: block;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#title-container {
 }
 
 #episode-title {
+  display: block;
   text-align: center;
   font-size: 1em;
-  font-weight: lighter;
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
+  margin-top: 0%;
+  margin-bottom: 10%;
 }
 
 #episode-number {
+  display: block;
   text-align: center;
   font-size: 1em;
-  font-weight: lighter;
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
+  margin-top: 0%;
 }
