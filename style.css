@@ -1,8 +1,15 @@
 body {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-family: "Poppins";
 }
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 #root {
   display: flex;
   flex-wrap: wrap;
@@ -19,6 +26,24 @@ body {
   border-radius: 2%;
 }
 
+#title-container {
+  margin-bottom: 5%;
+}
+
+#episode-number {
+  display: block;
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 0%;
+}
+
+#episode-title {
+  display: block;
+  text-align: center;
+  font-size: 0.9em;
+  /* margin-top: 0%; */
+}
+
 #episode-img {
   display: block;
   width: 95%;
@@ -26,20 +51,13 @@ body {
   margin-right: auto;
 }
 
-#title-container {
-}
-
-#episode-title {
-  display: block;
-  text-align: center;
+#episode-summery {
+  width: 100%;
   font-size: 1em;
-  margin-top: 0%;
-  margin-bottom: 10%;
-}
-
-#episode-number {
-  display: block;
-  text-align: center;
-  font-size: 1em;
-  margin-top: 0%;
+  height: 7em;
+  text-align: justify;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }

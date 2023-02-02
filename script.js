@@ -32,6 +32,7 @@ function makePageForEpisodes(episodeList) {
     episodeCard.appendChild(episodeImage);
 
     let episodeSummery = document.createElement("p");
+    episodeSummery.setAttribute("id", "episode-summery");
     episodeSummery.innerHTML = episode.summary;
     episodeCard.appendChild(episodeSummery);
 
