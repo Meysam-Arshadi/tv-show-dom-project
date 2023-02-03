@@ -34,18 +34,21 @@ let count = 0;
 function displayEpisodes(episodes) {
   episodes.forEach((episode) => {
     let episodeCard = document.createElement("li");
-    let titleContainer = document.createElement("h3");
+    let episodeNumber = document.createElement("h3");
+    let episodeTitle = document.createElement("h3");
     let episodeImage = document.createElement("img");
     let episodeSummery = document.createElement("p");
-    let episodeCode = `S ${("0" + episode.season).slice(-2)} E ${(
+    let episodeCode = `S ${("0" + episode.season).slice(-2)} - E ${(
       "0" + episode.number
     ).slice(-2)}`;
 
-    titleContainer.innerHTML = `${episode.name} - ${episodeCode}`;
+    episodeNumber.innerHTML = `${episodeCode}`;
+    episodeTitle.innerHTML = `${episode.name}`;
     episodeImage.src = episode.image.medium;
     episodeSummery.innerHTML = episode.summary;
 
-    episodeCard.appendChild(titleContainer);
+    episodeCard.appendChild(episodeNumber);
+    episodeCard.appendChild(episodeTitle);
     episodeCard.appendChild(episodeImage);
     episodeCard.appendChild(episodeSummery);
     list.appendChild(episodeCard);
@@ -60,7 +63,7 @@ function displayEpisodesWithSearchBox(episodes) {
   displayDropBox(episodes);
   displayEpisodes(episodes);
 
-  countSpan.innerHTML = `Displaying ${count}/${episodes.length} episodes`;
+  countSpan.innerHTML = `Displaying ${count} / ${episodes.length} episodes`;
 
   searchInput.addEventListener("input", (e) => {
     const inputValue = e.target.value.toLowerCase();
@@ -74,18 +77,21 @@ function displayEpisodesWithSearchBox(episodes) {
         episode.summary.toLowerCase().includes(inputValue)
       ) {
         let episodeCard = document.createElement("li");
-        let titleContainer = document.createElement("h3");
+        let episodeNumber = document.createElement("h3");
+        let episodeTitle = document.createElement("h3");
         let episodeImage = document.createElement("img");
         let episodeSummery = document.createElement("p");
-        let episodeCode = `S ${("0" + episode.season).slice(-2)} E ${(
+        let episodeCode = `S ${("0" + episode.season).slice(-2)} - E ${(
           "0" + episode.number
         ).slice(-2)}`;
 
-        titleContainer.innerHTML = `${episode.name} - ${episodeCode}`;
+        episodeNumber.innerHTML = `${episodeCode}`;
+        episodeTitle.innerHTML = `${episode.name}`;
         episodeImage.src = episode.image.medium;
         episodeSummery.innerHTML = episode.summary;
 
-        episodeCard.appendChild(titleContainer);
+        episodeCard.appendChild(episodeNumber);
+        episodeCard.appendChild(episodeTitle);
         episodeCard.appendChild(episodeImage);
         episodeCard.appendChild(episodeSummery);
         list.appendChild(episodeCard);
@@ -93,7 +99,7 @@ function displayEpisodesWithSearchBox(episodes) {
         count++;
       }
     });
-    countSpan.innerHTML = `Displaying ${count}/${episodes.length} episodes`;
+    countSpan.innerHTML = `Displaying ${count} / ${episodes.length} episodes`;
   });
 }
 
