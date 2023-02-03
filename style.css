@@ -1,6 +1,7 @@
 body {
   display: flex;
   flex-direction: column;
+  align-items: center;
   font-family: "Poppins";
 }
 
@@ -8,16 +9,26 @@ header {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
-#root {
+footer {
+  font-size: 0.8em;
+  margin-top: 0%;
+  margin-bottom: 5%;
+}
+
+ul {
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem;
 }
 
-#episode-card {
+li {
+  list-style: none;
   padding: 10px;
   width: 20%;
   border-style: solid;
@@ -26,32 +37,23 @@ header {
   border-radius: 2%;
 }
 
-#title-container {
-  margin-bottom: 5%;
-}
-
-#episode-number {
-  display: block;
+h3 {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   font-size: 0.9em;
   margin-top: 0%;
+  margin-bottom: 5%;
 }
 
-#episode-title {
-  display: block;
-  text-align: center;
-  font-size: 0.9em;
-  /* margin-top: 0%; */
-}
-
-#episode-img {
+img {
   display: block;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
 }
 
-#episode-summery {
+p {
   width: 100%;
   font-size: 1em;
   height: 7em;
@@ -60,4 +62,11 @@ header {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+#root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
 }
