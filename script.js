@@ -1,16 +1,18 @@
 // Setup function:
-function setup() {
-  const allEpisodes = async function getAllEpisodesFromAPI() {
-    try {
-      let response = await fetch(
-        "https://www.tvmaze.com/api#show-episode-list"
-      );
-      let data = await response.json();
-      return data;
-    } catch (err) {
-      console.log("Error");
-    }
-  };
+
+async function fetchAllShows() {
+  try {
+    const response = await fetch("https://api.tvmaze.com/shows");
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function setup() {
+  const allEpisodes = await fetchAllShows();
   displayEpisodesWithSearchBox(allEpisodes);
 }
 
