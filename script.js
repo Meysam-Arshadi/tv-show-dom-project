@@ -1,9 +1,17 @@
 // Setup function:
 function setup() {
   const allEpisodes = getAllEpisodes();
-  displayEpisodes(allEpisodes);
+  // Here we called getAllEpisodes() function
+  // we need to write a function to fetch all episodes and store it in a variable
   displayEpisodesWithSearchBox(allEpisodes);
 }
+
+async function getAllEpisodesFromAPI()
+
+
+
+
+
 
 window.onload = setup;
 
@@ -67,7 +75,6 @@ function displayEpisodesWithSearchBox(episodes) {
 
   searchInput.addEventListener("input", (e) => {
     const inputValue = e.target.value.toLowerCase();
-    console.log("inputValue");
     list.innerHTML = "";
     let count = 0;
 
@@ -130,9 +137,9 @@ function displayDropBox(episodes) {
         select.value.includes(episode.id)
       );
     }
-    let count = 0;
+
     list.innerHTML = "";
     displayEpisodes(newArray);
-    countSpan.innerHTML = `Displaying ${count}/${episodes.length} episodes`;
+    countSpan.innerHTML = `Displaying ${newArray.length}/${episodes.length} episodes`;
   });
 }
