@@ -1,17 +1,18 @@
 // Setup function:
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  // Here we called getAllEpisodes() function
-  // we need to write a function to fetch all episodes and store it in a variable
+  const allEpisodes = async function getAllEpisodesFromAPI() {
+    try {
+      let response = await fetch(
+        "https://www.tvmaze.com/api#show-episode-list"
+      );
+      let data = await response.json();
+      return data;
+    } catch (err) {
+      console.log("Error");
+    }
+  };
   displayEpisodesWithSearchBox(allEpisodes);
 }
-
-async function getAllEpisodesFromAPI()
-
-
-
-
-
 
 window.onload = setup;
 
