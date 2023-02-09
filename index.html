@@ -13,17 +13,27 @@
   </head>
 
   <body>
-    <header id="header"></header>
-    <div id="root"></div>
+    <header id="header">
+      <select name="" id="show-selector">
+        <option value="All" id="show-option">All shows</option>
+      </select>
+      <select name="" id="episode-selector">
+        <option value="All" id="episode-option">All episodes</option>
+      </select>
+      <input id="search-box" type="text" placeholder="search" />
+      <span id="count-span"></span>
+    </header>
+    <main>
+      <div id="root">
+        <ul id="main-list"></ul>
+      </div>
+    </main>
     <footer>
       <p id="copy-right">
         The data has (originally) come from
         <a href="https://www.tvmaze.com/api#licensing">TVMaze.com</a>
       </p>
     </footer>
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <!-- <script src="episodes.js"></script> -->
-    <!-- Loads YOUR javascript code -->
     <script src="script.js"></script>
   </body>
 </html>

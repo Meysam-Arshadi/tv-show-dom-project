@@ -4,7 +4,16 @@ async function fetchAllShows() {
   try {
     const response = await fetch("https://api.tvmaze.com/shows");
     const data = await response.json();
-    console.log(data);
+    return data;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function fetchAllEpisodes() {
+  try {
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    const data = await response.json();
     return data;
   } catch (error) {
     return error;
@@ -12,36 +21,49 @@ async function fetchAllShows() {
 }
 
 async function setup() {
-  const allEpisodes = await fetchAllShows();
-  displayEpisodesWithSearchBox(allEpisodes);
+  const allShows = await fetchAllShows();
+  const allEpisodes = await fetchAllEpisodes();
+  displayAllShows(allShows);
+  // displayEpisodesWithSearchBox(allEpisodes);
 }
 
 window.onload = setup;
 
 //Global scope:
 const header = document.querySelector("#header");
+const list = document.querySelector("#main-list");
 
-let list = document.createElement("ul");
-document.querySelector("#root").appendChild(list);
+const selectShow = document.querySelector("#show-selector");
+const showOptions = document.querySelector("#show-option");
 
-const select = document.createElement("select");
-header.appendChild(select);
+const selectEpisode = document.querySelector("#episode-selector");
+const episodeOptions = document.querySelector("#episode-option");
 
-const allOptions = document.createElement("option");
+// const allOptions = document.querySelector("option");
 
-const searchInput = document.createElement("input");
-searchInput.setAttribute("id", "search-box");
-searchInput.type = "text";
-searchInput.placeholder = "search";
-header.appendChild(searchInput);
+const searchInput = document.querySelector("#search-box");
 
-const countSpan = document.createElement("span");
-countSpan.setAttribute("id", "count-span");
-header.appendChild(countSpan);
+const countSpan = document.querySelector("#count-span");
 
 let count = 0;
 
-// Make Page For Episodes function:
+// Show all shows at the landing page:
+function displayAllShows(shows) {
+  shows.forEach((show) => {
+    let showCard = document.createElement("li");
+    let showTitle = document.createElement("h3");
+    let showImage = document.createElement("img");
+
+    showTitle.innerHTML = `${show.name}`;
+    showImage.src = show.image.medium;
+
+    showCard.appendChild(showTitle);
+    showCard.appendChild(showImage);
+    list.appendChild(showCard);
+  });
+}
+
+// Show all episodes of one show at the landing page:
 function displayEpisodes(episodes) {
   episodes.forEach((episode) => {
     let episodeCard = document.createElement("li");
@@ -71,7 +93,7 @@ function displayEpisodes(episodes) {
 
 function displayEpisodesWithSearchBox(episodes) {
   //Callback functions
-  displayDropBox(episodes);
+  episodeDropMenu(episodes);
   displayEpisodes(episodes);
 
   countSpan.innerHTML = `Displaying ${count} / ${episodes.length} episodes`;
@@ -113,31 +135,30 @@ function displayEpisodesWithSearchBox(episodes) {
   });
 }
 
-// Dropbox and search bar:
-
-function displayDropBox(episodes) {
-  allOptions.value = "All";
-  allOptions.innerHTML = "All episodes";
-  select.appendChild(allOptions);
+// Drop menu and search bar:
+function episodeDropMenu(episodes) {
+  episodeOptions.value = "All";
+  episodeOptions.innerHTML = "All episodes";
+  selectEpisode.appendChild(episodeOptions);
 
   episodes.forEach((episode) => {
     let episodeCode = `S ${("0" + episode.season).slice(-2)} E ${(
       "0" + episode.number
     ).slice(-2)}`;
-
+    console.log(episodeCode);
     const eachOption = document.createElement("option");
     eachOption.value = episode.id;
     eachOption.innerHTML = `${episodeCode} - ${episode.name}`;
-    select.appendChild(eachOption);
+    selectEpisode.appendChild(eachOption);
   });
 
-  select.addEventListener("change", () => {
+  selectEpisode.addEventListener("change", () => {
     let newArray = [];
-    if (select.value === "All") {
+    if (selectEpisode.value === "All") {
       newArray = episodes;
     } else {
-      newArray = episodes.filter((episode) =>
-        select.value.includes(episode.id)
+      newArray = selectEpisode.filter((episode) =>
+        selectEpisode.value.includes(episode.id)
       );
     }
 
