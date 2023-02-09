@@ -24,7 +24,8 @@ async function setup() {
   const allShows = await fetchAllShows();
   const allEpisodes = await fetchAllEpisodes();
   displayAllShows(allShows);
-  // displayEpisodesWithSearchBox(allEpisodes);
+  allShowsDropMenu(allShows);
+  displayEpisodesWithSearchBox(allEpisodes);
 }
 
 window.onload = setup;
@@ -62,6 +63,59 @@ function displayAllShows(shows) {
     list.appendChild(showCard);
   });
 }
+
+// Show Drop Menu:
+function allShowsDropMenu(shows) {
+  showOptions.value = "All";
+  showOptions.innerHTML = "All shows";
+  selectShow.appendChild(showOptions);
+
+  shows.forEach((show) => {
+    const eachShowOption = document.createElement("option");
+    eachShowOption.value = show.id;
+    eachShowOption.innerHTML = `${show.name}`;
+    selectShow.appendChild(eachShowOption);
+  });
+
+  selectShow.addEventListener("change", () => {
+    let newArray = [];
+    if (selectShow.value === "All") {
+      newArray = shows;
+    } else {
+      newArray = selectShow.filter((show) =>
+        selectShow.value.includes(show.id)
+      );
+    }
+
+    list.innerHTML = "";
+    // displayAllShows(newArray);
+    // countSpan.innerHTML = `Displaying ${newArray.length}/${episodes.length} episodes`;
+  });
+}
+
+// Display show From Drop Down Menu:
+
+// function displayShowFromDropMenu(shows) {
+//   //Callback functions
+//   allShowsDropMenu(shows);
+
+//   selectedShow.addEventListener("change", (show) => {
+//         let showCard = document.createElement("li");
+//         let showTitle = document.createElement("h3");
+//         let showImage = document.createElement("img");
+//         let showSummery = document.createElement("p");
+
+//         showTitle.innerHTML = `${show.name}`;
+//         showImage.src = show.image.medium;
+//         showSummery.innerHTML = show.summary;
+
+//         showCard.appendChild(showTitle);
+//         showCard.appendChild(showImage);
+//         showCard.appendChild(showSummery);
+//         list.appendChild(showCard);
+
+//       }
+//       };
 
 // Show all episodes of one show at the landing page:
 function displayEpisodes(episodes) {
