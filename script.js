@@ -10,9 +10,17 @@ async function fetchAllShows() {
   }
 }
 
-async function fetchAllEpisodes() {
+async function fetchSeasons(showId) {
+  const response = await fetch(`https://api.tvmaze.com/shows/${showId}`);
+  const data = await response.json();
+  return data;
+}
+
+async function fetchAllEpisodes(showId) {
   try {
-    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+    const response = await fetch(
+      `https://api.tvmaze.com/shows/${showId}/episodes`
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -20,12 +28,14 @@ async function fetchAllEpisodes() {
   }
 }
 
+let allShows;
+
 async function setup() {
-  const allShows = await fetchAllShows();
-  const allEpisodes = await fetchAllEpisodes();
+  allShows = await fetchAllShows();
+  // const allEpisodes = await fetchAllEpisodes();
   displayAllShows(allShows);
   allShowsDropMenu(allShows);
-  displayEpisodesWithSearchBox(allEpisodes);
+  // displayEpisodesWithSearchBox(allEpisodes);
 }
 
 window.onload = setup;
@@ -50,6 +60,7 @@ let count = 0;
 
 // Show all shows at the landing page:
 function displayAllShows(shows) {
+  list.innerHTML = "";
   shows.forEach((show) => {
     let showCard = document.createElement("li");
     let showTitle = document.createElement("h3");
@@ -65,8 +76,11 @@ function displayAllShows(shows) {
 }
 
 // Show Drop Menu:
+let selectShowValue;
+let seasonAPI;
+
 function allShowsDropMenu(shows) {
-  showOptions.value = "All";
+  showOptions.value = "all";
   showOptions.innerHTML = "All shows";
   selectShow.appendChild(showOptions);
 
@@ -78,44 +92,20 @@ function allShowsDropMenu(shows) {
   });
 
   selectShow.addEventListener("change", () => {
-    let newArray = [];
-    if (selectShow.value === "All") {
-      newArray = shows;
+    selectShowValue = selectShow.value;
+    if (selectShowValue === "all") {
+      displayAllShows(allShows);
     } else {
-      newArray = selectShow.filter((show) =>
-        selectShow.value.includes(show.id)
-      );
+      seasonAPI = fetchSeasons(selectShowValue);
+      console.log(seasonAPI);
+      let selectedResult = allShows.filter((show) => {
+        return `${show.id}` === selectShowValue;
+      });
+      list.innerHTML = "";
+      displayAllShows(selectedResult);
     }
-
-    list.innerHTML = "";
-    // displayAllShows(newArray);
-    // countSpan.innerHTML = `Displaying ${newArray.length}/${episodes.length} episodes`;
   });
 }
-
-// Display show From Drop Down Menu:
-
-// function displayShowFromDropMenu(shows) {
-//   //Callback functions
-//   allShowsDropMenu(shows);
-
-//   selectedShow.addEventListener("change", (show) => {
-//         let showCard = document.createElement("li");
-//         let showTitle = document.createElement("h3");
-//         let showImage = document.createElement("img");
-//         let showSummery = document.createElement("p");
-
-//         showTitle.innerHTML = `${show.name}`;
-//         showImage.src = show.image.medium;
-//         showSummery.innerHTML = show.summary;
-
-//         showCard.appendChild(showTitle);
-//         showCard.appendChild(showImage);
-//         showCard.appendChild(showSummery);
-//         list.appendChild(showCard);
-
-//       }
-//       };
 
 // Show all episodes of one show at the landing page:
 function displayEpisodes(episodes) {
@@ -148,7 +138,7 @@ function displayEpisodes(episodes) {
 function displayEpisodesWithSearchBox(episodes) {
   //Callback functions
   episodeDropMenu(episodes);
-  displayEpisodes(episodes);
+  // displayEpisodes(episodes);
 
   countSpan.innerHTML = `Displaying ${count} / ${episodes.length} episodes`;
 
@@ -190,6 +180,7 @@ function displayEpisodesWithSearchBox(episodes) {
 }
 
 // Drop menu and search bar:
+
 function episodeDropMenu(episodes) {
   episodeOptions.value = "All";
   episodeOptions.innerHTML = "All episodes";
@@ -199,7 +190,6 @@ function episodeDropMenu(episodes) {
     let episodeCode = `S ${("0" + episode.season).slice(-2)} E ${(
       "0" + episode.number
     ).slice(-2)}`;
-    console.log(episodeCode);
     const eachOption = document.createElement("option");
     eachOption.value = episode.id;
     eachOption.innerHTML = `${episodeCode} - ${episode.name}`;
