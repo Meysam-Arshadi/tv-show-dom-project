@@ -1,4 +1,4 @@
-// Setup function:
+// Fetch APIs and Setup Function:
 
 async function fetchAllShows() {
   try {
@@ -11,7 +11,9 @@ async function fetchAllShows() {
 }
 
 async function fetchSeasons(showId) {
-  const response = await fetch(`https://api.tvmaze.com/shows/${showId}`);
+  const response = await fetch(
+    `https://api.tvmaze.com/shows/${showId}/seasons`
+  );
   const data = await response.json();
   return data;
 }
@@ -40,7 +42,7 @@ async function setup() {
 
 window.onload = setup;
 
-//Global scope:
+//Global Scopes:
 const header = document.querySelector("#header");
 const list = document.querySelector("#main-list");
 
@@ -58,7 +60,7 @@ const countSpan = document.querySelector("#count-span");
 
 let count = 0;
 
-// Show all shows at the landing page:
+// Display All Shows at the Landing Page:
 function displayAllShows(shows) {
   list.innerHTML = "";
   shows.forEach((show) => {
@@ -71,11 +73,12 @@ function displayAllShows(shows) {
 
     showCard.appendChild(showTitle);
     showCard.appendChild(showImage);
+
     list.appendChild(showCard);
   });
 }
 
-// Show Drop Menu:
+// Display All Shows Drop Down Menu:
 let selectShowValue;
 let seasonAPI;
 
@@ -91,23 +94,42 @@ function allShowsDropMenu(shows) {
     selectShow.appendChild(eachShowOption);
   });
 
-  selectShow.addEventListener("change", () => {
+  selectShow.addEventListener("change", async () => {
     selectShowValue = selectShow.value;
     if (selectShowValue === "all") {
       displayAllShows(allShows);
     } else {
-      seasonAPI = fetchSeasons(selectShowValue);
+      seasonAPI = await fetchSeasons(selectShowValue);
       console.log(seasonAPI);
-      let selectedResult = allShows.filter((show) => {
-        return `${show.id}` === selectShowValue;
-      });
-      list.innerHTML = "";
-      displayAllShows(selectedResult);
+      console.log(typeof seasonAPI);
+      // displayAllShows(selectedResult);
+
+      displaySeasonsOfSelectedShow(seasonAPI);
     }
   });
 }
 
-// Show all episodes of one show at the landing page:
+function displaySeasonsOfSelectedShow(seasons) {
+  list.innerHTML = "";
+  seasons.forEach((season) => {
+    let seasonCard = document.createElement("li");
+    let seasonNumber = document.createElement("h3");
+    let seasonImage = document.createElement("img");
+
+    seasonNumber.innerHTML = `S ${season.number}`;
+    if (season.image !== null) {
+      seasonImage.src = season.image.medium;
+    } else {
+      seasonImage.src = "";
+    }
+
+    seasonCard.appendChild(seasonNumber);
+    seasonCard.appendChild(seasonImage);
+    list.appendChild(seasonCard);
+  });
+}
+
+// Display All Episodes of One Season:
 function displayEpisodes(episodes) {
   episodes.forEach((episode) => {
     let episodeCard = document.createElement("li");
@@ -133,7 +155,7 @@ function displayEpisodes(episodes) {
   });
 }
 
-// Display episodes with search box function:
+// Display All Episodes with Search Box Function:
 
 function displayEpisodesWithSearchBox(episodes) {
   //Callback functions
@@ -179,7 +201,7 @@ function displayEpisodesWithSearchBox(episodes) {
   });
 }
 
-// Drop menu and search bar:
+// Drop Down Menu and Search Bar:
 
 function episodeDropMenu(episodes) {
   episodeOptions.value = "All";
